@@ -1,0 +1,43 @@
+  <div class="container">
+
+    <div class="dropdown">
+      <a id="dLabel" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        Categories
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="dLabel">
+        <li><%= link_to 'all' , articles_path %></li>
+        <% @categories.each do |categorie| %>
+            <li><%= link_to categorie.title , articles_path(:categorie => categorie.id) %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% @articles.each do |article| %>
+        <div class="jumbotron col-sm-12">
+            <div class="col-sm-3">
+            <div class="lead">
+              <%= image_tag article.image.url(:thumb) %>
+            </div>
+            </div>
+            <div class="col-sm-9">
+            <h2 class="display-3"><%= link_to article.title, article_path(article) %></h2>
+            <em><%= article.price %> € [<%= article.categorie.title %>]</em>
+            <p class="lead">
+              <% if current_user == article.user %>
+                <%= link_to 'Edit' , edit_article_path(article), class:"btn btn-default" %>
+                <%= link_to 'delete', article,
+                            method: :delete,
+                            data: { confirm: 'Are you sure?' },
+                            class:"btn btn-danger"
+                %>
+              <% end %>
+            </p>
+            </div>
+        </div>
+  <% end %>
+    <div class="col-sm-4"></div>
+    <div class="digg_pagination col-sm-4">
+      <%= will_paginate @articles, :container => false %>
+    </div>
+  </div>
+

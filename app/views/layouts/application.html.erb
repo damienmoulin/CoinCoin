@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CoinCoin</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <% if user_signed_in? %>
+    <nav class="navbar navbar-inverse bg-warning">
+      <ul class="nav navbar-nav">
+          <li><%= link_to 'New', new_article_path %></li>
+          <li><%= link_to 'index', articles_path %></li>
+          <li>
+            <%= form_tag articles_path, :method => 'get', :class => "form-inline" do %>
+                  <%= text_field_tag :search, params[:search], :class => "form-control", :placeholder => "Search ..." %>
+                  <%= submit_tag "Search" , :class => "btn btn-primary"%>
+            <% end %>
+          </li>
+      </ul>
+      <ul class="nav ">
+        <li class="right"><%= link_to 'Log out', destroy_user_session_path, method: :delete %></li>
+        <li class="right"><%= link_to 'My coins', profile_path , method: :get %></li>
+      </ul>
+    </nav>
+    <% end %>
+    <%= yield %>
+  </body>
+</html>
